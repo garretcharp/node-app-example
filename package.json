@@ -1,0 +1,60 @@
+{
+  "name": "node-app-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --inspect=5858 -r ts-node/register ./src/index.ts",
+    "start:watch": "nodemon",
+    "build": "npm run lint && tsc",
+    "lint": "eslint src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garretcharp/node-app-example.git"
+  },
+  "keywords": [],
+  "author": "Garret Harp <garretcharp@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/garretcharp/node-app-example/issues"
+  },
+  "homepage": "https://github.com/garretcharp/node-app-example#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/mongodb": "^3.5.25",
+    "@types/node": "^14.0.26",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "eslint": "^7.5.0",
+    "eslint-config-standard-with-typescript": "^18.0.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "@phc/argon2": "^1.0.9",
+    "cors": "^2.8.5",
+    "cuid": "^2.1.8",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.9",
+    "upash": "^1.0.2"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "npm start",
+    "ext": "ts"
+  }
+}
