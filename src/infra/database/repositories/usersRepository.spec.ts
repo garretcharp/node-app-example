@@ -1,11 +1,11 @@
-import makeDb from '../../../../__test__/fixtures/db'
+import makeDb, { closeDb } from '../../../../__test__/fixtures/db'
 import makeUsersDb from './usersRepository'
 import createFakeUser from '../../../../__test__/fixtures/user'
 
 describe('comments db', () => {
   let usersRepository: any
 
-  beforeEach(async () => {
+  beforeEach(() => {
     usersRepository = makeUsersDb({ makeDb })
   })
 
@@ -13,5 +13,9 @@ describe('comments db', () => {
     const user = createFakeUser({})
     const result = await usersRepository.insert(user)
     return expect(result).toEqual(user)
+  })
+
+  afterAll(async () => {
+    await closeDb()
   })
 })
