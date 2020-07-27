@@ -1,4 +1,5 @@
-import { IResponse } from '../../../types'
+import express from 'express'
+import { IResponse, IRequest } from '../../../types'
 
 export async function notFound (): Promise<IResponse> {
   return {
@@ -10,4 +11,30 @@ export async function notFound (): Promise<IResponse> {
   }
 }
 
-export * from './users'
+export function makeExpressCallback (controller: (httpRequest: any) => Promise<IResponse>) {
+  return (req: express.Request, res: express.Response) => {
+    const httpRequest: IRequest = {
+      body: req.body,
+      query: req.query,
+      params: req.params,
+      ip: req.ip,
+      method: req.method,
+      path: req.path,
+      headers: {
+        'Content-Type': req.get('Content-Type'),
+        Referer: req.get('referer'),
+        'User-Agent': req.get('User-Agent')
+      }
+    }
+
+    controller(httpRequest)
+      .then(httpResponse => {
+        if (httpResponse.headers !== undefined) {
+          res.set(httpResponse.headers)
+        }
+        res.type('json')
+        res.status(httpResponse.statusCode).send(httpResponse.body)
+      })
+      .catch(() => res.status(500).send({ error: 'Internal Server Error', message: 'An unknown error occurred.' }))
+  }
+}

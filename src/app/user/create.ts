@@ -6,10 +6,12 @@ export default function makeCreateUser ({ usersRepository }: { usersRepository: 
   return async function createUser (userInfo: Partial<IUser>) {
     const userEntity = await makeUser(userInfo)
 
-    return usersRepository.insert({
+    await usersRepository.insert({
       id: userEntity.getId(),
       email: userEntity.getEmail(),
       hash: userEntity.getPasswordHash()
     })
+
+    return { id: userEntity.getId(), email: userEntity.getEmail() }
   }
 }

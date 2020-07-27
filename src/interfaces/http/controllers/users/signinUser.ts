@@ -1,11 +1,10 @@
 import { IResponse } from '../../../../types'
 import { InvalidInputError } from '../../../../utils/errors'
-import { MongoError } from 'mongodb'
 
-export default function makePostUser ({ createUser }: any) {
-  return async function postUser (httpRequest: IResponse) {
+export default function makeSigninUser ({ validateUser }: any) {
+  return async function signupUser (httpRequest: IResponse) {
     try {
-      const created = await createUser({
+      const user = await validateUser({
         ...httpRequest.body
       })
 
@@ -14,8 +13,8 @@ export default function makePostUser ({ createUser }: any) {
           'Content-Type': 'application/json',
           'Last-Modified': new Date().toUTCString()
         },
-        statusCode: 201,
-        body: { created }
+        statusCode: 200,
+        body: { user }
       }
     } catch (thrown) {
       let status = 500
@@ -29,14 +28,6 @@ export default function makePostUser ({ createUser }: any) {
         error = {
           error: 'Bad Request',
           message: thrown.message
-        }
-      } else if (thrown instanceof MongoError && thrown.code === 11000) {
-        // Code 11000 = duplicate key error
-
-        status = 400
-        error = {
-          error: 'Bad Request',
-          message: 'This email is already associated with a user'
         }
       }
 

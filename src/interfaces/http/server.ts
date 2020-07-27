@@ -1,18 +1,19 @@
 import express from 'express'
 import cors from 'cors'
 
-import makeCallback from './controllers/mainController'
-import {
-  postUser,
-  notFound
-} from './controllers'
+import { makeExpressCallback, notFound } from './controllers'
+import { signupUser, signinUser } from './controllers/users'
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+  origin: 'https://postwoman.io' // postwoman is used for testing
+}))
 app.use(express.json())
 
-app.post('/api/v1/users', makeCallback(postUser))
-app.use(makeCallback(notFound))
+app.post('/api/v1/users/signup', makeExpressCallback(signupUser))
+app.post('/api/v1/users/signin', makeExpressCallback(signinUser))
+
+app.use(makeExpressCallback(notFound))
 
 export default app

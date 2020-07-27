@@ -1,7 +1,9 @@
-import { createUser } from '../../../../app/user'
+import { createUser, validateUser } from '../../../../app/user'
 
-import makePostUser from './postUser'
+import makeSignupUser from './signupUser'
+import makeSigninUser from './signinUser'
 
-const postUser = makePostUser({ createUser })
+const signupUser = makeSignupUser({ createUser })
+const signinUser = makeSigninUser({ validateUser })
 
-export { postUser }
+export { signupUser, signinUser }

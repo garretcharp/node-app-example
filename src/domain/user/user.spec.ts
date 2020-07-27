@@ -20,6 +20,13 @@ describe('user', () => {
     )
   })
 
+  it('must have a password', async () => {
+    const user = createFakeUser({ password: null })
+    expect(createUser(user)).rejects.toThrowError(
+      'User must have a valid password.'
+    )
+  })
+
   it('can have an id', () => {
     const user = createFakeUser({ id: 'invalid' })
     expect(createUser(user)).rejects.toThrowError('User must have a valid id.')
