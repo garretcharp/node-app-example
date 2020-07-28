@@ -2,7 +2,7 @@ import makeDb, { closeDb } from '../../../../__test__/fixtures/db'
 import makeUsersDb from './usersRepository'
 import createFakeUser from '../../../../__test__/fixtures/user'
 
-describe('comments db', () => {
+describe('Users Repository', () => {
   let usersRepository: any
 
   beforeEach(() => {
